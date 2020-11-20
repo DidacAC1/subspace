@@ -87,16 +87,28 @@ func init() {
 	cli.StringVar(&httpHost, "http-host", "", "HTTP host")
 	cli.StringVar(&httpAddr, "http-addr", ":80", "HTTP listen address")
 	cli.BoolVar(&httpInsecure, "http-insecure", false, "enable sessions cookies for http (no https) not recommended")
-	cli.BoolVar(&letsencrypt, "letsencrypt", true, "enable TLS using Let's Encrypt on port 443")
+	cli.BoolVar(&letsencrypt, "letsencrypt", false, "enable TLS using Let's Encrypt on port 443")
 	cli.BoolVar(&showVersion, "version", false, "display version and exit")
 	cli.BoolVar(&showHelp, "help", false, "display help and exit")
 	cli.BoolVar(&debug, "debug", false, "debug mode")
 	cli.StringVar(&semanticTheme, "theme", "green", "Semantic-ui theme to use")
 }
 
+func printVars() {
+	fmt.Printf("datadir: %s\n", datadir)
+	fmt.Printf("backlink: %s\n", backlink)
+	fmt.Printf("httpHost: %s\n", httpHost)
+	fmt.Printf("httpAddr: %s\n", httpAddr)
+	fmt.Printf("httpInsecure: %t\n", httpInsecure)
+	fmt.Printf("letsencrypt: %t\n", letsencrypt)
+	fmt.Printf("showVersion: %t\n", showVersion)
+	fmt.Printf("showHelp: %t\n", showHelp)
+	fmt.Printf("debug: %t\n", debug)
+	fmt.Printf("semanticTheme: %s\n", semanticTheme)
+}
+
 func main() {
 	var err error
-
 	cli.Parse(os.Args[1:])
 	usage := func(msg string) {
 		if msg != "" {
@@ -105,6 +117,7 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Usage: %s --http-host subspace.example.com\n\n", os.Args[0])
 		cli.PrintDefaults()
 	}
+	printVars()
 
 	if showHelp {
 		usage("Help info")
