@@ -15,10 +15,10 @@ import (
 )
 
 var (
-	validEmail         = regexp.MustCompile(`^[ -~]+@[ -~]+$`)
-	validPassword      = regexp.MustCompile(`^[ -~]{6,200}$`)
-	validString        = regexp.MustCompile(`^[ -~]{1,200}$`)
-	maxProfiles        = 250
+	validEmail    = regexp.MustCompile(`^[ -~]+@[ -~]+$`)
+	validPassword = regexp.MustCompile(`^[ -~]{6,200}$`)
+	validString   = regexp.MustCompile(`^[ -~]{1,200}$`)
+	maxProfiles   = 250
 )
 
 func getEnv(key, fallback string) string {
@@ -362,42 +362,15 @@ func profileAddHandler(w *Web) {
 		return
 	}
 
-	ipv4Pref := "10.99.97."
-	if pref := getEnv("SUBSPACE_IPV4_PREF", "nil"); pref != "nil" {
-		ipv4Pref = pref
-	}
-	ipv4Gw := "10.99.97.1"
-	if gw := getEnv("SUBSPACE_IPV4_GW", "nil"); gw != "nil" {
-		ipv4Gw = gw
-	}
+	ipv4Pref := "10.11.12."
+	ipv4Gw := "10.11.12.1"
 	ipv4Cidr := "24"
-	if cidr := getEnv("SUBSPACE_IPV4_CIDR", "nil"); cidr != "nil" {
-		ipv4Cidr = cidr
-	}
 	ipv6Pref := "fd00::10:97:"
-	if pref := getEnv("SUBSPACE_IPV6_PREF", "nil"); pref != "nil" {
-		ipv6Pref = pref
-	}
 	ipv6Gw := "fd00::10:97:1"
-	if gw := getEnv("SUBSPACE_IPV6_GW", "nil"); gw != "nil" {
-		ipv6Gw = gw
-	}
 	ipv6Cidr := "64"
-	if cidr := getEnv("SUBSPACE_IPV6_CIDR", "nil"); cidr != "nil" {
-		ipv6Cidr = cidr
-	}
-	listenport := "51820"
-	if port := getEnv("SUBSPACE_LISTENPORT", "nil"); port != "nil" {
-		listenport = port
-	}
+	listenport := "57575"
 	endpointHost := httpHost
-	if eh := getEnv("SUBSPACE_ENDPOINT_HOST", "nil"); eh != "nil" {
-		endpointHost = eh
-	}
 	allowedips := "0.0.0.0/0, ::/0"
-	if ips := getEnv("SUBSPACE_ALLOWED_IPS", "nil"); ips != "nil" {
-		allowedips = ips
-	}
 
 	script := `
 cd {{$.Datadir}}/wireguard
@@ -422,7 +395,6 @@ Address = {{$.IPv4Pref}}{{$.Profile.Number}}/{{$.IPv4Cidr}},{{$.IPv6Pref}}{{$.Pr
 PublicKey = $(cat server.public)
 
 Endpoint = {{$.EndpointHost}}:{{$.Listenport}}
-AllowedIPs = {{$.AllowedIPS}}
 WGCLIENT
 `
 	_, err = bash(script, struct {

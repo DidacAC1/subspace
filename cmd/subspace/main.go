@@ -226,7 +226,7 @@ func main() {
 		if httpPort == "80" {
 			hostport = httpHost
 		}
-		logger.Infof("Subspace version: %s %s", version, &url.URL{
+		logger.Infof("Subspace version: %s \n%s", version, &url.URL{
 			Scheme: "http",
 			Host:   hostport,
 			Path:   httpPrefix,
