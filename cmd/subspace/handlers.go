@@ -377,7 +377,7 @@ cd {{$.Datadir}}/wireguard
 wg_private_key="$(wg genkey)"
 wg_public_key="$(echo $wg_private_key | wg pubkey)"
 
-wg set wg0 peer ${wg_public_key} allowed-ips {{$.IPv4Pref}}{{$.Profile.Number}}/32
+wg set server peer ${wg_public_key} allowed-ips {{$.IPv4Pref}}{{$.Profile.Number}}/32
 
 cat <<WGPEER >peers/{{$.Profile.ID}}.conf
 [Peer]
@@ -563,7 +563,7 @@ func deleteProfile(profile Profile) error {
 # WireGuard
 cd {{$.Datadir}}/wireguard
 peerid=$(cat peers/{{$.Profile.ID}}.conf | awk '/PublicKey/ { printf("%s", $3) }' )
-wg set wg0 peer $peerid remove
+wg set server peer $peerid remove
 rm peers/{{$.Profile.ID}}.conf
 rm clients/{{$.Profile.ID}}.conf
 `

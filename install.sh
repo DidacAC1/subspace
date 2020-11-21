@@ -23,14 +23,15 @@ cat <<WGSERVER >/opt/subspace/data/wireguard/server.conf
 [Interface]
 PrivateKey = $(cat /opt/subspace/data/wireguard/server.private)
 ListenPort = 57575
+SaveConfig = true
 
 WGSERVER
 cat /opt/subspace/data/wireguard/peers/*.conf >>/opt/subspace/data/wireguard/server.conf
 
-if ip link show wg0 2>/dev/null; then
-  ip link del wg0
+wg-quick 
+
+if ip link show server 2>/dev/null; then
+  wg-quick down /opt/subspace/data/wireguard/server.conf
 fi
-ip link add wg0 type wireguard
-ip addr add 10.11.12.1/24 dev wg0
-wg setconf wg0 /opt/subspace/data/wireguard/server.conf
-ip link set wg0 up
+
+wg-quick up /opt/subspace/data/wireguard/server.conf
