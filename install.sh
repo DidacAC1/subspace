@@ -28,8 +28,6 @@ SaveConfig = true
 WGSERVER
 cat /opt/subspace/data/wireguard/peers/*.conf >>/opt/subspace/data/wireguard/server.conf
 
-wg-quick 
-
 if ip link show server 2>/dev/null; then
   wg-quick down /opt/subspace/data/wireguard/server.conf
 fi
