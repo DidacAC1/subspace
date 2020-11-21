@@ -370,7 +370,7 @@ func profileAddHandler(w *Web) {
 	ipv6Cidr := "64"
 	listenport := "57575"
 	endpointHost := httpHost
-	allowedips := "0.0.0.0/0, ::/0"
+	allowedips := "10.11.12.0/24"
 
 	script := `
 cd {{$.Datadir}}/wireguard
@@ -392,7 +392,7 @@ Address = {{$.IPv4Pref}}{{$.Profile.Number}}/{{$.IPv4Cidr}}
 
 [Peer]
 PublicKey = $(cat server.public)
-
+AllowedIPs = {{$.AllowedIPS}}
 Endpoint = {{$.EndpointHost}}:{{$.Listenport}}
 WGCLIENT
 `
