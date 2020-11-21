@@ -21,6 +21,7 @@ fi
 
 cat <<WGSERVER >/opt/subspace/data/wireguard/server.conf
 [Interface]
+Address = 10.11.12.1/24
 PrivateKey = $(cat /opt/subspace/data/wireguard/server.private)
 ListenPort = 57575
 SaveConfig = true
