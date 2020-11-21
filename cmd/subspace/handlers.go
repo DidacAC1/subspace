@@ -377,18 +377,18 @@ cd {{$.Datadir}}/wireguard
 wg_private_key="$(wg genkey)"
 wg_public_key="$(echo $wg_private_key | wg pubkey)"
 
-wg set wg0 peer ${wg_public_key} allowed-ips {{$.IPv4Pref}}{{$.Profile.Number}}/32,{{$.IPv6Pref}}{{$.Profile.Number}}/128
+wg set wg0 peer ${wg_public_key} allowed-ips {{$.IPv4Pref}}{{$.Profile.Number}}/32
 
 cat <<WGPEER >peers/{{$.Profile.ID}}.conf
 [Peer]
 PublicKey = ${wg_public_key}
-AllowedIPs = {{$.IPv4Pref}}{{$.Profile.Number}}/32,{{$.IPv6Pref}}{{$.Profile.Number}}/128
+AllowedIPs = {{$.IPv4Pref}}{{$.Profile.Number}}/32
 WGPEER
 
 cat <<WGCLIENT >clients/{{$.Profile.ID}}.conf
 [Interface]
 PrivateKey = ${wg_private_key}
-Address = {{$.IPv4Pref}}{{$.Profile.Number}}/{{$.IPv4Cidr}},{{$.IPv6Pref}}{{$.Profile.Number}}/{{$.IPv6Cidr}}
+Address = {{$.IPv4Pref}}{{$.Profile.Number}}/{{$.IPv4Cidr}}
 
 [Peer]
 PublicKey = $(cat server.public)
